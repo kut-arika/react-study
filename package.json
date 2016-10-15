@@ -4,7 +4,7 @@
   "description": "react-study project.",
   "main": "index.js",
   "scripts": {
-    "start" : "webpack-dev-server --inline --colors --hot",
+    "start": "webpack-dev-server --inline --colors --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,6 +31,8 @@
     "jquery": "^3.1.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
     "remarkable": "^1.7.1"
   }
 }

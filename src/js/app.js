@@ -2,12 +2,23 @@ import 'babel-polyfill';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Remarkable from 'remarkable'
+import { createStore } from 'redux'
 import $ from 'jquery'
 
-var data = [
-  {id: 1, author: "Pete Hunt", text: "This is one comment"},
-  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
-];
+const reducer = (state = [], action) => {
+  switch(action.type) {
+    case 'ADD_DATA':
+      action.data.id = state.length + 1;
+      return [
+        ...state,
+        action.data
+      ];
+    default:
+      return state;
+  }
+}
+const store = createStore(reducer);
+
 var Comment = React.createClass({
   rawMarkup: function() {
     var md = new Remarkable();
@@ -82,6 +93,7 @@ var CommentForm = React.createClass({
   }
 });
 var CommentBox = React.createClass({
+  /*
   getInitialState: function() {
     return {data: []};
   },
@@ -99,7 +111,10 @@ var CommentBox = React.createClass({
       }
     });
   },
+  */
   handleCommentSubmit: function(comment) {
+    store.dispatch({ type: 'ADD_DATA', data: comment })
+    /*
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -110,20 +125,27 @@ var CommentBox = React.createClass({
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
+
       }.bind(this)
     });
+    */
   },
   render: function() {
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentList data={this.state.data}/>
+        <CommentList data={store.getState()}/>
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
   }
 });
-ReactDOM.render(
-  <CommentBox url="/api/comments" />,
-  document.getElementById('content')
-);
+
+const render = () => {
+  ReactDOM.render(
+    <CommentBox url="/api/comments" />,
+    document.getElementById('content')
+  );
+}
+store.subscribe(render);
+render();
