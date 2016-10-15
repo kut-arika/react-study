@@ -4,7 +4,7 @@
   "description": "react-study project.",
   "main": "index.js",
   "scripts": {
-    "start" : "webpack-dev-server --colors --hot",
+    "start" : "webpack-dev-server --inline --colors --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
